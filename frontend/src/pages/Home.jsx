@@ -1696,6 +1696,442 @@
 
 
 
+// import React, { useState, useEffect, useContext } from "react";
+// import { Search, Bell, Menu, X, Sun, Moon, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+// import { useNavigate } from "react-router-dom";
+// import { AuthContext } from '../store/authStore';
+// import { JobContext } from '../store/jobStore';
+// import { UIContext } from '../store/uiStore';
+
+// const Navbar = ({ darkMode, toggleDarkMode, toggleMenu, menuOpen }) => {
+//   const navigate = useNavigate();
+
+//   return (
+//     <nav className="flex justify-between items-center py-4">
+//       <h1 className="text-2xl font-bold">Adhyayan Connects ...</h1>
+//       <div className="hidden md:flex gap-6 items-center">
+//         {["Home", "Jobs", "Categories", "Contact"].map((item) => (
+//           <a 
+//             key={item} 
+//             href="#" 
+//             className="hover:text-green-800" 
+//             onClick={(e) => {
+//               e.preventDefault(); // Prevent default anchor behavior
+//               if (item === "Jobs") {
+//                 navigate("/Jobs"); 
+//               } else if (item === "Categories") {
+//                 navigate("/job-categories"); 
+//               } else if(item === "Contact"){
+//                 navigate("/contact-us"); 
+//               }
+//             }}
+//           >
+//             {item}
+//           </a>
+//         ))}
+//         <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-700">
+//           {darkMode ? <Sun size={24} /> : <Moon size={24} />}
+//         </button>
+//         <button 
+//           className="border border-green-800 text-green-800 px-4 py-2 rounded-full hover:bg-green-800 hover:text-white cursor-pointer"
+//           onClick={() => navigate("/login")}
+//         >
+//           Login
+//         </button>
+//         <button className="bg-green-800 px-4 py-2 rounded-full text-white hover:bg-green-800 cursor-pointer" onClick={() => navigate("/signup")}>Signup</button>
+//       </div>
+//       <button className="md:hidden" onClick={toggleMenu}>{menuOpen ? <X size={28} /> : <Menu size={28} />}</button>
+//     </nav>
+//   );
+// };
+
+// const JobCard = ({ job, navigate }) => (
+//   <div className="bg-green-800 p-6 m-2 rounded-lg shadow-md w-80 hover:scale-105 transition-transform text-white">
+//     <h3 className="font-bold text-lg">{job.title}</h3>
+//     <p className="opacity-80">{job.location}</p>
+//     <button 
+//       className="bg-white text-green-800 px-4 py-2 mt-3 rounded-full hover:bg-gray-200 w-full cursor-pointer"
+//       onClick={() => navigate(`/apply-now/${job.id}`)}
+//     >
+//       Apply Now
+//     </button>
+//   </div>
+// );
+
+// const JobCategory = ({ category, darkMode }) => (
+//   <div className={`relative rounded-xl p-6 shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-2 flex items-center gap-4 ${darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900"}`}>
+//     <div className={`p-3 rounded-full text-xl ${darkMode ? "bg-gray-700 text-white" : "bg-gray-300 text-gray-900"}`}>
+//       {category.icon}
+//     </div>
+//     <div>
+//       <h3 className="text-lg font-semibold cursor-pointer">{category.name}</h3>
+//       <p className={`${darkMode ? "text-green-800" : "text-green-800"}`}>{category.jobs} Jobs</p>
+//     </div>
+//   </div>
+// );
+
+// const JobCategorySlider = ({ categories, darkMode }) => {
+//   const [currentIndex, setCurrentIndex] = useState(0);
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setCurrentIndex((prevIndex) => (prevIndex + 1) % Math.ceil(categories.length / 4));
+//     }, 5000);
+
+//     return () => clearInterval(interval);
+//   }, [categories.length]);
+
+//   const slides = [];
+//   for (let i = 0; i < categories.length; i += 4) {
+//     slides.push(categories.slice(i, i + 4));
+//   }
+
+//   return (
+//     <div className="mt-16">
+//       <h2 className="text-3xl font-bold text-center">Job Categories</h2>
+//       <div className="overflow-hidden w-full mt-8">
+//         <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+//           {slides.map((slide, index) => (
+//             <div key={index} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 min-w-full">
+//               {slide.map((category, idx) => (
+//                 <JobCategory key={idx} category={category} darkMode={darkMode} />
+//               ))}
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       <div className="flex justify-center mt-4">
+//         {slides.map((_, index) => (
+//           <button
+//             key={index}
+//             className={`w-3 h-3 mx-1 rounded-full ${index === currentIndex ? "bg-green-800" : "bg-gray-400"}`}
+//             onClick={() => setCurrentIndex(index)}
+//           />
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// const FooterSetup = ({ darkMode }) => {
+//   return (
+//     <div className={`mt-16 py-8 px-6 ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}>
+//       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+//         <div>
+//           <h3 className="text-xl font-bold">Adhyayan Finder</h3>
+//           <p className="text-gray-400 mt-2">Connecting educators with top schools.</p>
+//         </div>
+//         <div>
+//           <h4 className="text-lg font-semibold mb-3">Quick Links</h4>
+//           <ul className="space-y-2">
+//             {["Home", "Jobs", "Categories", "Contact"].map((item) => (
+//               <li key={item}>
+//                 <a href="#" className="hover:text-green-800">{item}</a>
+//               </li>
+//             ))}
+//           </ul>
+//         </div>
+//         <div>
+//           <h4 className="text-lg font-semibold mb-3">Resources</h4>
+//           <ul className="space-y-2">
+//             {["Blog", "Guides", "FAQs", "Support"].map((item) => (
+//               <li key={item}>
+//                 <a href="#" className="hover:text-green-800">{item}</a>
+//               </li>
+//             ))}
+//           </ul>
+//         </div>
+//         <div>
+//           <h4 className="text-lg font-semibold mb-3">Follow Us</h4>
+//           <div className="flex gap-4">
+//             <a href="#" className="hover:text-green-800"><Facebook size={24} /></a>
+//             <a href="#" className="hover:text-green-800"><Twitter size={24} /></a>
+//             <a href="#" className="hover:text-green-800"><Instagram size={24} /></a>
+//             <a href="#" className="hover:text-green-800"><Linkedin size={24} /></a>
+//           </div>
+//         </div>
+//       </div>
+//       <div className="mt-8 border-t border-gray-700 pt-4 text-center text-gray-400">
+//         <p>© {new Date().getFullYear()} Adhyayan Finder. All rights reserved.</p>
+//       </div>
+//     </div>
+//   );
+// };
+
+// const MentorshipShowcase = () => {
+//   const [activeSlide, setActiveSlide] = useState(0);
+//   const slides = [
+//     {
+//       image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+//       title: "Adhyayan360 Job Portal",
+//       subtitle: "Connecting Talent with Opportunity..."
+//     },
+//     {
+//       image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80",
+//       title: "Find Your Dream Job",
+//       subtitle: "Connecting Employers with Talent"
+//     },
+//     {
+//       image: "https://images.unsplash.com/photo-1577896851231-70ef18881754",
+//       title: "Innovative Solutions",
+//       subtitle: "Opportunities for the Right Candidates"
+//     }
+//   ];
+
+//   useEffect(() => {
+//     const timer = setInterval(() => {
+//       setActiveSlide((prev) => (prev + 1) % slides.length);
+//     }, 4000);
+//     return () => clearInterval(timer);
+//   }, []);
+
+//   return (
+//     <div className="relative w-80 md:w-96 overflow-hidden rounded-lg shadow-2xl">
+//       <div
+//         className="flex transition-transform duration-500"
+//         style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+//       >
+//         {slides.map((slide, index) => (
+//           <div key={index} className="min-w-full relative">
+//             <img src={slide.image} alt={slide.title} className="w-full h-full object-cover rounded-lg" />
+//             <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60 to-transparent text-white rounded-b-lg">
+//               <h2 className="text-xl font-bold mb-0.5">{slide.title}</h2>
+//               <p className="text-sm">{slide.subtitle}</p>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//       <div className="flex justify-center mt-3 gap-2">
+//         {slides.map((_, index) => (
+//           <button
+//             key={index}
+//             className={`w-2 h-2 rounded-full transition-all ${activeSlide === index ? 'bg-green-800 scale-110' : 'bg-white/50'}`}
+//             onClick={() => setActiveSlide(index)}
+//           />
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// const BlogCard = ({ blog, darkMode }) => (
+//   <div className={`p-6 m-2 rounded-lg shadow-md w-80 hover:scale-105 transition-transform ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
+//     <img src={blog.image} alt={blog.title} className="w-full h-40 object-cover rounded-md" />
+//     <h3 className="font-bold text-lg mt-4">{blog.title}</h3>
+//     <p className="text-gray-500 mt-2">{blog.excerpt}</p>
+//     <a href="#" className={`mt-4 inline-block ${darkMode ? 'text-green-800 hover:underline' : 'text-green-600 hover:underline'}`}>Read More</a>
+//   </div>
+// );
+
+// const BlogSection = ({ darkMode }) => {
+//   const blogs = [
+//     {
+//       title: "How to Land Your Dream Teaching Job",
+//       excerpt: "Explore essential tips and advice for securing a position in top schools...",
+//       image: "https://images.unsplash.com/photo-1610500796385-3ffc1ae2f046"
+//     },
+//     {
+//       title: "What Employers Look for in Educators",
+//       excerpt: "Understand the key qualities that employers value in educators and how to highlight them...",
+//       image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
+//     },
+//     {
+//       title: "The Future of Education: Trends to Watch",
+//       excerpt: "Stay updated on the latest trends in education that are shaping the future of teaching...",
+//       image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
+//     }
+//   ];
+
+//   return (
+//     <div className="mt-16">
+//       <h2 className={`text-3xl font-bold text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>Latest Blog Posts</h2>
+//       <div className="flex flex-wrap justify-center mt-6">
+//         {blogs.map((blog, index) => (
+//           <BlogCard key={index} blog={blog} darkMode={darkMode} />
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default function JobPortalLanding() {
+//   const navigate = useNavigate();
+//   const { user, isAuthenticated } = useContext(AuthContext);
+//   const { jobs, loadingJobs, errorJobs, fetchJobs } = useContext(JobContext);
+//   const { darkMode, toggleTheme } = useContext(UIContext);
+//   const [menuOpen, setMenuOpen] = useState(false);
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [schoolSearchQuery, setSchoolSearchQuery] = useState("");
+
+//   const categories = [
+//     { name: "Pre-Primary (Nursery to UKG)", jobs: 8, icon: "🎒" },
+//     { name: "Primary (1 to 8)", jobs: 12, icon: "📖" },
+//     { name: "High School (8 to 10)", jobs: 10, icon: "📚" },
+//     { name: "Higher Secondary (11 to 12)", jobs: 6, icon: "🏫" },
+//     { name: "Principal & Vice Principal", jobs: 4, icon: "🎓" },
+//     { name: "Sports Teacher", jobs: 5, icon: "⚽" },
+//     { name: "Art & Music Teacher", jobs: 3, icon: "🎨" },
+//     { name: "Lab Assistant", jobs: 4, icon: "🧪" },
+//     { name: "Accountant", jobs: 7, icon: "💰" },
+//     { name: "Receptionist", jobs: 6, icon: "📞" },
+//     { name: "Office Clerk", jobs: 5, icon: "📝" },
+//     { name: "Librarian", jobs: 4, icon: "📚" },
+//     { name: "Security Guards", jobs: 8, icon: "🛡️" },
+//     { name: "Gardeners", jobs: 3, icon: "🌿" },
+//     { name: "Transport Coordinator", jobs: 4, icon: "🚍" },
+//     { name: "Activity Coordinator", jobs: 5, icon: "🎭" },
+//   ];
+
+//   const recommendedSchools = [
+//     { name: "Green Valley High School", location: "New York, NY", icon: "🏫" },
+//     { name: "Springfield Academy", location: "Los Angeles, CA", icon: "🎓" },
+//     { name: "Blue Ridge International", location: "San Francisco, CA", icon: "🌍" },
+//     { name: "Harmony Public School", location: "Houston, TX", icon: "🏡" },
+//     { name: "Fairfield Elementary School", location: "San Diego, CA", icon: "🏫" },
+//     { name: "Cherry Hill Middle School", location: "San Diego, CA", icon: "🎓" },
+//     { name: "Westwood Middle International School", location: "San Diego, CA", icon: "🌍" },
+//     { name: "Pinecrest High School", location: "San Diego, CA", icon: "🏡" },
+//   ];
+//   const recommendedJobs = [
+//         { title: "Mathematics Teacher", location: "Top School - City" },
+//         { title: "Physics Teacher", location: "Top School - City" },
+//       ];
+
+//   useEffect(() => {
+//     if (!jobs && !loadingJobs) {
+//       fetchJobs();
+//     }
+//   }, [jobs, loadingJobs, fetchJobs]);
+
+//   // Using optional chaining to handle potential undefined jobs
+//   const filteredJobs = jobs?.filter(job =>
+//     job.title.toLowerCase().includes(searchQuery.toLowerCase())
+//   ) || [];
+
+//   const filteredSchools = recommendedSchools.filter(school =>
+//     school.name.toLowerCase().includes(schoolSearchQuery.toLowerCase())
+//   );
+
+//   return (
+//     <div className={`min-h-screen ${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} px-6`}>
+//      <Navbar darkMode={darkMode} toggleDarkMode={toggleTheme} toggleMenu={() => setMenuOpen(!menuOpen)} menuOpen={menuOpen} />
+
+//       {/* Mobile Menu */}
+//       {menuOpen && (
+//         <div className="md:hidden flex flex-col gap-4 items-center bg-gray-800 text-white py-4 rounded-lg shadow-lg">
+//           {["Home", "Jobs", "Categories", "Contact"].map((item) => (
+//             <a key={item} href="#" className="hover:text-green-800">{item}</a>
+//           ))}
+//           <button className="border border-green-800 text-green-800 px-4 py-2 rounded-full hover:bg-green-800 hover:text-white w-40">Login</button>
+//           <button className="bg-green-800 px-4 py-2 rounded-full text-white hover:bg-green-800 w-40">Signup</button>
+//           <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-700 mt-2">{darkMode ? <Sun size={24} /> : <Moon size={24} />}</button>
+//         </div>
+//       )}
+
+//       {/* Hero Section */}
+//       <div className="flex flex-col lg:flex-row items-center justify-between mt-12">
+//         <div className="max-w-2xl text-center lg:text-left">
+//           <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
+//             Find Your <span className="text-green-800">Dream Teaching Job</span> Today
+//           </h2>
+//           <p className="text-gray-400 mt-4 text-lg">
+//             Search jobs across multiple school education categories. Connect with top schools and institutions!
+//           </p>
+
+//           {/* Search Bar for Jobs */}
+//           <div className="flex items-center bg-gray-800 mt-6 p-3 rounded-full w-full max-w-lg shadow-lg mx-auto lg:mx-0">
+//             <Search size={24} className="text-green-800 ml-3" />
+//             <input 
+//               type="text" 
+//               placeholder="Search job titles, subjects..." 
+//               className="flex-grow bg-transparent focus:outline-none text-white px-3"
+//               value={searchQuery} 
+//               onChange={(e) => setSearchQuery(e.target.value)} 
+//             />
+//             <button className="bg-green-800 px-6 py-2 rounded-full text-white hover:bg-green-800 cursor-pointer">
+//               Search
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Right Side Image */}
+//         <div className="relative mt-12 lg:mt-0 w-80 md:w-96">
+//           <MentorshipShowcase />
+//         </div>
+//       </div>
+
+//       {/* Recommended Jobs Section */}
+//       <div id="recommended-jobs" className="mt-16">
+//         <h2 className="text-3xl font-bold text-center">Latest Jobs for You</h2>
+//         {loadingJobs ? (
+//           <p>Loading jobs...</p>
+//         ) : errorJobs ? (
+//           <p>Error loading jobs: {errorJobs.message}</p>
+//         ) : jobs ? (
+//           <div className="flex flex-wrap justify-center mt-6">
+//             {filteredJobs.map((job, index) => <JobCard key={index} job={job} navigate={navigate} />)}
+//           </div>
+//         ) : (
+//           <p>No jobs available at the moment.</p>
+//         )}
+//       </div>
+
+//       {/* Job Categories Slider */}
+//       <div id="job-categories">
+//         <JobCategorySlider categories={categories} darkMode={darkMode} />
+//       </div>
+
+//       {/* Find the Best School Section */}
+//       <div className="mt-16">
+//         <h2 className="text-3xl font-bold text-center">Find the Best School</h2>
+//         <p className="text-gray-400 text-center mt-2">Search and explore top-rated schools near you.</p>
+
+//         {/* Search Bar for Schools */}
+//         <div className="flex items-center bg-gray-800 mt-6 p-3 rounded-full w-full max-w-lg mx-auto shadow-lg">
+//           <Search size={24} className="text-green-800 ml-3" />
+//           <input 
+//             type="text" 
+//             placeholder="Search schools by name, location..." 
+//             className="flex-grow bg-transparent focus:outline-none text-white px-3"
+//             value={schoolSearchQuery} 
+//             onChange={(e) => setSchoolSearchQuery(e.target.value)} 
+//           />
+//           <button className="bg-green-800 px-6 py-2 rounded-full text-white hover:bg-green-800 cursor-pointer">
+//             Search
+//           </button>
+//         </div>
+
+//         {/* Recommended Schools */}
+//         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+//           {filteredSchools.map((school, index) => (
+//             <div key={index} className={`relative rounded-xl p-6 shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-2 flex items-center gap-4 cursor-pointer ${darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900"}`}>
+//               <div className={`p-3 rounded-full text-xl ${darkMode ? "bg-gray-700 text-white" : "bg-gray-300 text-gray-900"}`}>
+//                 {school.icon}
+//               </div>
+//               <div>
+//                 <h3 className="text-lg font-semibold">{school.name}</h3>
+//                 <p className={`${darkMode ? "text-green-800" : "text-green-800"}`}>{school.location}</p>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* Blog Section */}
+//       <BlogSection darkMode={darkMode} />
+
+//       {/* Footer */}
+//       <FooterSetup darkMode={darkMode} />
+
+//       {/* Job Alerts */}
+//       <div className="fixed bottom-6 right-6 flex items-center bg-gray-800 text-white px-4 py-2 rounded-full shadow-lg cursor-pointer hover:bg-gray-700">
+//         <Bell size={20} className="mr-2" />
+//         <span>Job Alerts</span>
+//       </div>
+//     </div>
+//   );
+// }
 
 
 
@@ -1703,9 +2139,12 @@
 
 
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Search, Bell, Menu, X, Sun, Moon, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../store/authStore';
+import { JobContext } from '../store/jobStore';
+import { UIContext } from '../store/uiStore';
 
 const Navbar = ({ darkMode, toggleDarkMode, toggleMenu, menuOpen }) => {
   const navigate = useNavigate();
@@ -1715,28 +2154,30 @@ const Navbar = ({ darkMode, toggleDarkMode, toggleMenu, menuOpen }) => {
       <h1 className="text-2xl font-bold">Adhyayan Connects ...</h1>
       <div className="hidden md:flex gap-6 items-center">
         {["Home", "Jobs", "Categories", "Contact"].map((item) => (
-         <a 
-         key={item} 
-         href="#" 
-         className="hover:text-green-800" 
-         onClick={(e) => {
-           e.preventDefault(); // Prevent default anchor behavior
-           if (item === "Jobs") {
-             navigate("#recommended-jobs"); // Navigate to Recommended Jobs section
-           } else if (item === "Categories") {
-             navigate("#job-categories"); // Navigate to Job Categories section
-           }
-         }}
-       >
-         {item}
-       </a>
+          <a 
+            key={item} 
+            href="#" 
+            className="hover:text-green-800" 
+            onClick={(e) => {
+              e.preventDefault(); // Prevent default anchor behavior
+              if (item === "Jobs") {
+                navigate("/Jobs"); 
+              } else if (item === "Categories") {
+                navigate("/job-categories"); 
+              } else if(item === "Contact"){
+                navigate("/contact-us"); 
+              }
+            }}
+          >
+            {item}
+          </a>
         ))}
         <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-700">
           {darkMode ? <Sun size={24} /> : <Moon size={24} />}
         </button>
         <button 
           className="border border-green-800 text-green-800 px-4 py-2 rounded-full hover:bg-green-800 hover:text-white cursor-pointer"
-          onClick={() => navigate("/login")}  // 🔥 Redirect to Login Page
+          onClick={() => navigate("/login")}
         >
           Login
         </button>
@@ -1747,18 +2188,21 @@ const Navbar = ({ darkMode, toggleDarkMode, toggleMenu, menuOpen }) => {
   );
 };
 
-
-const JobCard = ({ job }) => (
+const JobCard = ({ job, navigate }) => (
   <div className="bg-green-800 p-6 m-2 rounded-lg shadow-md w-80 hover:scale-105 transition-transform text-white">
     <h3 className="font-bold text-lg">{job.title}</h3>
     <p className="opacity-80">{job.location}</p>
-    <button className="bg-white text-green-800 px-4 py-2 mt-3 rounded-full hover:bg-gray-200 w-full cursor-pointer">Apply Now</button>
+    <button 
+      className="bg-white text-green-800 px-4 py-2 mt-3 rounded-full hover:bg-gray-200 w-full cursor-pointer"
+      onClick={() => navigate(`/apply-now/${job.id}`)}
+    >
+      Apply Now
+    </button>
   </div>
 );
 
-// ✅ Job Category Component
 const JobCategory = ({ category, darkMode }) => (
-  <div className={`relative rounded-xl p-6 shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-2 flex items-center gap-4 ${darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900 "}`}>
+  <div className={`relative rounded-xl p-6 shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-2 flex items-center gap-4 ${darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900"}`}>
     <div className={`p-3 rounded-full text-xl ${darkMode ? "bg-gray-700 text-white" : "bg-gray-300 text-gray-900"}`}>
       {category.icon}
     </div>
@@ -1769,11 +2213,9 @@ const JobCategory = ({ category, darkMode }) => (
   </div>
 );
 
-// ✅ Job Category Slider Component
 const JobCategorySlider = ({ categories, darkMode }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Slide every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % Math.ceil(categories.length / 4));
@@ -1782,7 +2224,6 @@ const JobCategorySlider = ({ categories, darkMode }) => {
     return () => clearInterval(interval);
   }, [categories.length]);
 
-  // Splitting categories into chunks of 4
   const slides = [];
   for (let i = 0; i < categories.length; i += 4) {
     slides.push(categories.slice(i, i + 4));
@@ -1792,7 +2233,6 @@ const JobCategorySlider = ({ categories, darkMode }) => {
     <div className="mt-16">
       <h2 className="text-3xl font-bold text-center">Job Categories</h2>
       <div className="overflow-hidden w-full mt-8">
-        {/* Slider Content */}
         <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
           {slides.map((slide, index) => (
             <div key={index} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 min-w-full">
@@ -1804,7 +2244,6 @@ const JobCategorySlider = ({ categories, darkMode }) => {
         </div>
       </div>
 
-      {/* Dots Indicator */}
       <div className="flex justify-center mt-4">
         {slides.map((_, index) => (
           <button
@@ -1822,13 +2261,10 @@ const FooterSetup = ({ darkMode }) => {
   return (
     <div className={`mt-16 py-8 px-6 ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}>
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {/* Company Info */}
         <div>
           <h3 className="text-xl font-bold">Adhyayan Finder</h3>
           <p className="text-gray-400 mt-2">Connecting educators with top schools.</p>
         </div>
-
-        {/* Quick Links */}
         <div>
           <h4 className="text-lg font-semibold mb-3">Quick Links</h4>
           <ul className="space-y-2">
@@ -1839,8 +2275,6 @@ const FooterSetup = ({ darkMode }) => {
             ))}
           </ul>
         </div>
-
-        {/* Resources */}
         <div>
           <h4 className="text-lg font-semibold mb-3">Resources</h4>
           <ul className="space-y-2">
@@ -1851,8 +2285,6 @@ const FooterSetup = ({ darkMode }) => {
             ))}
           </ul>
         </div>
-
-        {/* Social Media */}
         <div>
           <h4 className="text-lg font-semibold mb-3">Follow Us</h4>
           <div className="flex gap-4">
@@ -1863,10 +2295,8 @@ const FooterSetup = ({ darkMode }) => {
           </div>
         </div>
       </div>
-
-      {/* Bottom Section */}
       <div className="mt-8 border-t border-gray-700 pt-4 text-center text-gray-400">
-        <p>&copy; {new Date().getFullYear()} Adhyayan Finder. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Adhyayan Finder. All rights reserved.</p>
       </div>
     </div>
   );
@@ -1874,7 +2304,6 @@ const FooterSetup = ({ darkMode }) => {
 
 const MentorshipShowcase = () => {
   const [activeSlide, setActiveSlide] = useState(0);
-
   const slides = [
     {
       image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
@@ -1929,7 +2358,6 @@ const MentorshipShowcase = () => {
   );
 };
 
-// Blog Card Component
 const BlogCard = ({ blog, darkMode }) => (
   <div className={`p-6 m-2 rounded-lg shadow-md w-80 hover:scale-105 transition-transform ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
     <img src={blog.image} alt={blog.title} className="w-full h-40 object-cover rounded-md" />
@@ -1971,41 +2399,43 @@ const BlogSection = ({ darkMode }) => {
 };
 
 export default function JobPortalLanding() {
-  const [darkMode, setDarkMode] = useState(true);
+  const navigate = useNavigate();
+  const { user, isAuthenticated } = useContext(AuthContext);
+  const { jobs, loadingJobs, errorJobs, fetchJobs } = useContext(JobContext);
+  const { darkMode, toggleTheme } = useContext(UIContext);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // State for job search query
-  const [schoolSearchQuery, setSchoolSearchQuery] = useState(""); // State for school search query
+  const [searchQuery, setSearchQuery] = useState("");
+  const [schoolSearchQuery, setSchoolSearchQuery] = useState("");
 
-  // ✅ Job Categories Data
   const categories = [
-    { name: "Pre-Primary (Nursery to UKG)", jobs: 8, icon: "🎒" },
-    { name: "Primary (1 to 8)", jobs: 12, icon: "📖" },
-    { name: "High School (8 to 10)", jobs: 10, icon: "📚" },
-    { name: "Higher Secondary (11 to 12)", jobs: 6, icon: "🏫" },
-    { name: "Principal & Vice Principal", jobs: 4, icon: "🎓" },
-    { name: "Sports Teacher", jobs: 5, icon: "⚽" },
-    { name: "Art & Music Teacher", jobs: 3, icon: "🎨" },
-    { name: "Lab Assistant", jobs: 4, icon: "🧪" },
-    { name: "Accountant", jobs: 7, icon: "💰" },
-    { name: "Receptionist", jobs: 6, icon: "📞" },
-    { name: "Office Clerk", jobs: 5, icon: "📝" },
-    { name: "Librarian", jobs: 4, icon: "📚" },
-    { name: "Security Guards", jobs: 8, icon: "🛡️" },
-    { name: "Gardeners", jobs: 3, icon: "🌿" },
-    { name: "Transport Coordinator", jobs: 4, icon: "🚍" },
-    { name: "Activity Coordinator", jobs: 5, icon: "🎭" },
-  ];
-
-  const recommendedSchools = [
-    { name: "Green Valley High School", location: "New York, NY", icon: "🏫" },
-    { name: "Springfield Academy", location: "Los Angeles, CA", icon: "🎓" },
-    { name: "Blue Ridge International", location: "San Francisco, CA", icon: "🌍" },
-    { name: "Harmony Public School", location: "Houston, TX", icon: "🏡" },
-    { name: "Fairfield Elementary School", location: "San Diego, CA", icon: "🏫" },
-    { name: "Cherry Hill Middle School", location: "San Diego, CA", icon: "🎓" },
-    { name: "Westwood Middle International School", location: "San Diego, CA", icon: "🌍" },
-    { name: "Pinecrest High School", location: "San Diego, CA", icon: "🏡" },
-  ];
+        { name: "Pre-Primary (Nursery to UKG)", jobs: 8, icon: "🎒" },
+        { name: "Primary (1 to 8)", jobs: 12, icon: "📖" },
+        { name: "High School (8 to 10)", jobs: 10, icon: "📚" },
+        { name: "Higher Secondary (11 to 12)", jobs: 6, icon: "🏫" },
+        { name: "Principal & Vice Principal", jobs: 4, icon: "🎓" },
+        { name: "Sports Teacher", jobs: 5, icon: "⚽" },
+        { name: "Art & Music Teacher", jobs: 3, icon: "🎨" },
+        { name: "Lab Assistant", jobs: 4, icon: "🧪" },
+        { name: "Accountant", jobs: 7, icon: "💰" },
+        { name: "Receptionist", jobs: 6, icon: "📞" },
+        { name: "Office Clerk", jobs: 5, icon: "📝" },
+        { name: "Librarian", jobs: 4, icon: "📚" },
+        { name: "Security Guards", jobs: 8, icon: "🛡️" },
+        { name: "Gardeners", jobs: 3, icon: "🌿" },
+        { name: "Transport Coordinator", jobs: 4, icon: "🚍" },
+        { name: "Activity Coordinator", jobs: 5, icon: "🎭" },
+      ];
+    
+      const recommendedSchools = [
+        { name: "Green Valley High School", location: "New York, NY", icon: "🏫" },
+        { name: "Springfield Academy", location: "Los Angeles, CA", icon: "🎓" },
+        { name: "Blue Ridge International", location: "San Francisco, CA", icon: "🌍" },
+        { name: "Harmony Public School", location: "Houston, TX", icon: "🏡" },
+        { name: "Fairfield Elementary School", location: "San Diego, CA", icon: "🏫" },
+        { name: "Cherry Hill Middle School", location: "San Diego, CA", icon: "🎓" },
+        { name: "Westwood Middle International School", location: "San Diego, CA", icon: "🌍" },
+        { name: "Pinecrest High School", location: "San Diego, CA", icon: "🏡" },
+      ];
 
   const recommendedJobs = [
     { title: "Mathematics Teacher", location: "Top School - City" },
@@ -2013,19 +2443,24 @@ export default function JobPortalLanding() {
     { title: "Chemistry Teacher", location: "Top School - City" },
   ];
 
-  // Step 3: Filter the recommended jobs
-  const filteredJobs = recommendedJobs.filter(job =>
-    job.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    if (!jobs && !loadingJobs) {
+      fetchJobs();
+    }
+  }, [jobs, loadingJobs, fetchJobs]);
 
-  // Step 3: Filter the recommended schools
+  // Using optional chaining to handle potential undefined jobs
+  const filteredJobs = jobs?.filter(job =>
+    job.title.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
   const filteredSchools = recommendedSchools.filter(school =>
     school.name.toLowerCase().includes(schoolSearchQuery.toLowerCase())
   );
 
   return (
     <div className={`min-h-screen ${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} px-6`}>
-      <Navbar darkMode={darkMode} toggleDarkMode={() => setDarkMode(!darkMode)} toggleMenu={() => setMenuOpen(!menuOpen)} menuOpen={menuOpen} />
+      <Navbar darkMode={darkMode} toggleDarkMode={toggleTheme} toggleMenu={() => setMenuOpen(!menuOpen)} menuOpen={menuOpen} />
 
       {/* Mobile Menu */}
       {menuOpen && (
@@ -2035,7 +2470,7 @@ export default function JobPortalLanding() {
           ))}
           <button className="border border-green-800 text-green-800 px-4 py-2 rounded-full hover:bg-green-800 hover:text-white w-40">Login</button>
           <button className="bg-green-800 px-4 py-2 rounded-full text-white hover:bg-green-800 w-40">Signup</button>
-          <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full hover:bg-gray-700 mt-2">{darkMode ? <Sun size={24} /> : <Moon size={24} />}</button>
+          <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-700 mt-2">{darkMode ? <Sun size={24} /> : <Moon size={24} />}</button>
         </div>
       )}
 
@@ -2056,8 +2491,8 @@ export default function JobPortalLanding() {
               type="text" 
               placeholder="Search job titles, subjects..." 
               className="flex-grow bg-transparent focus:outline-none text-white px-3"
-              value={searchQuery} // Bind input value to searchQuery
-              onChange={(e) => setSearchQuery(e.target.value)} // Update state on input change
+              value={searchQuery} 
+              onChange={(e) => setSearchQuery(e.target.value)} 
             />
             <button className="bg-green-800 px-6 py-2 rounded-full text-white hover:bg-green-800 cursor-pointer">
               Search
@@ -2071,20 +2506,26 @@ export default function JobPortalLanding() {
         </div>
       </div>
 
-       {/* Recommended Jobs Section */}
-    <div id="recommended-jobs" className="mt-16">
-      <h2 className="text-3xl font-bold text-center">Latest Jobs for You</h2>
-      <div className="flex flex-wrap justify-center mt-6">
-        {filteredJobs.map((job, index) => <JobCard key={index} job={job} />)}
+      {/* Latest Jobs Section */}
+      <div id="recommended-jobs" className="mt-16">
+        <h2 className="text-3xl font-bold text-center">Latest Jobs for you </h2>
+        <div className="flex flex-wrap justify-center mt-6">
+          {recommendedJobs.map((job, index) => 
+            <JobCard 
+              key={index} 
+              job={{ ...job, id: index + 1 }} // Add a dummy id for demonstration
+              navigate={navigate} 
+            />
+          )}
+        </div>
       </div>
-    </div>
 
       {/* Job Categories Slider */}
       <div id="job-categories">
-      <JobCategorySlider categories={categories} darkMode={darkMode} />
-    </div>
+        <JobCategorySlider categories={categories} darkMode={darkMode} />
+      </div>
 
-      {/* ✅ New "Find the Best School" Section */}
+      {/* Find the Best School Section */}
       <div className="mt-16">
         <h2 className="text-3xl font-bold text-center">Find the Best School</h2>
         <p className="text-gray-400 text-center mt-2">Search and explore top-rated schools near you.</p>
@@ -2096,8 +2537,8 @@ export default function JobPortalLanding() {
             type="text" 
             placeholder="Search schools by name, location..." 
             className="flex-grow bg-transparent focus:outline-none text-white px-3"
-            value={schoolSearchQuery} // Bind input value to schoolSearchQuery
-            onChange={(e) => setSchoolSearchQuery(e.target.value)} // Update state on input change
+            value={schoolSearchQuery} 
+            onChange={(e) => setSchoolSearchQuery(e.target.value)} 
           />
           <button className="bg-green-800 px-6 py-2 rounded-full text-white hover:bg-green-800 cursor-pointer">
             Search
@@ -2134,7 +2575,3 @@ export default function JobPortalLanding() {
     </div>
   );
 }
-
-
-
-// Working code ends here -----------------------------------------------------------------------------------------

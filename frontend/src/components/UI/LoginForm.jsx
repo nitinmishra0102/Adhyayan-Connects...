@@ -61,7 +61,7 @@ const LoginForm = () => {
         localStorage.setItem("token", response.data.token);
         const userType = response.data.user.userType.toLowerCase();
         toast.success("Login successful!");
-        navigate(userType === "candidate" ? "/CandidateDashboard" : "/RecruiterDashboard");
+        navigate(userType === "candidate" ? "/candidate-dashboard" : "/recruiter-dashboard");
       } else {
         toast.error("Unexpected response from the server.");
       }
